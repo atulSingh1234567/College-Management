@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input:invalid:required:focus {
+    border-color: red;
+}
+
+input:invalid:focus {
+    border-color: red;
+}
