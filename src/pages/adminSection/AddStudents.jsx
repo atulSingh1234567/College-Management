@@ -7,8 +7,8 @@ export default function AddStudents() {
         course: 'BTech',
         rollno: 22222,
         role: '',
-        package: '',
-        batch: 2024
+        batch: 2024,
+        ctc: ''
     });
     const formData = new FormData()
     const [studentImg, setStudentImg] = useState();
@@ -29,7 +29,6 @@ export default function AddStudents() {
             ...student,
             [name]: value
         })
-        formData.append('url' , studentImg)
     }
 
     console.log(student)
@@ -39,10 +38,10 @@ export default function AddStudents() {
             const formData = new FormData();
             formData.append('name' , student.name)
             formData.append('role' , student.role)
-            formData.append('branch' , student.branch)
+            formData.append('batch' , student.batch)
             formData.append('course' , student.course)
             formData.append('company' , student.company)
-            formData.append('package' , student.package)
+            formData.append('ctc' , student.ctc)
             formData.append('rollno' , student.rollno)
             formData.append('type' , 'url')
             formData.append('url' , studentImg)
@@ -102,8 +101,8 @@ export default function AddStudents() {
                 <label htmlFor="email">Email<i className='text-red-500'>*</i></label>
                 <input type="text" value={student.email} onChange={addingStudent} className='border w-[400px] border rounded-xl px-2 h-10' name='email' placeholder='email...' />
 
-                <label htmlFor="package">CTC<i className='text-red-500'>*</i></label>
-                <input type="text" value={student.package} onChange={addingStudent} name='package' className='border w-[400px] border rounded-xl px-2 h-10' placeholder='' />
+                <label htmlFor="ctc">CTC<i className='text-red-500'>*</i></label>
+                <input type="text" value={student.ctc} onChange={addingStudent} name='ctc' className='border w-[400px] border rounded-xl px-2 h-10' placeholder='' />
 
             </form>
                 <button onClick={postStudent} className='bg-blue-400 h-10 rounded-xl text-xl text-white font-semibold w-[400px] mt-4'>Add student</button>
