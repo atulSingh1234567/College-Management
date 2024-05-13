@@ -1,5 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom';
+
 export default function Navbar() {
   return (
     <header className='flex flex-col justify-between'>
@@ -17,6 +18,9 @@ export default function Navbar() {
             ${isActive? 'text-xl font-bold': 'text-xl'}`)} to='/our-stars'>Our stars</NavLink>
         <NavLink className={({isActive})=>(`
             ${isActive? 'text-xl font-bold': 'text-xl'}`)} to='/admin'>Admin</NavLink>
+      </span>
+      <span>
+        
       </span>
     </header>
   )
