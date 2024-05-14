@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import {Toaster,toast} from 'react-hot-toast'
+import { ProgressBar } from 'react-loader-spinner';
+import { useAllContexts } from '../../contexts/Contexts';
 
 export default function AddStudents() {
     const [student, setStudent] = useState({
@@ -10,9 +13,10 @@ export default function AddStudents() {
         batch: 2024,
         ctc: ''
     });
-    const formData = new FormData()
+    const [loading,setLoading] = useState(false)
     const [studentImg, setStudentImg] = useState();
     const [prevImg, setPrevImg] = useState();
+    const {getCookie} = useAllContexts()
 
     const handleFileChange = function (e) {
         e.preventDefault();
@@ -35,26 +39,32 @@ export default function AddStudents() {
 
     const postStudent = async () => {
         try {
+            setLoading(true)
             const formData = new FormData();
-            formData.append('name' , student.name)
-            formData.append('role' , student.role)
-            formData.append('batch' , student.batch)
-            formData.append('course' , student.course)
-            formData.append('company' , student.company)
-            formData.append('ctc' , student.ctc)
-            formData.append('rollno' , student.rollno)
-            formData.append('type' , 'url')
-            formData.append('url' , studentImg)
-            console.log(formData)
+            formData.append('name', student.name)
+            formData.append('role', student.role)
+            formData.append('batch', student.batch)
+            formData.append('course', student.course)
+            formData.append('company', student.company)
+            formData.append('ctc', student.ctc)
+            formData.append('rollno', student.rollno)
+            formData.append('type', 'url')
+            formData.append('url', studentImg)
+            console.log("formdata",formData)
+            const accessToken = getCookie('accessToken')
             axios.post('http://localhost:3000/api/v1/add-student', formData)
                 .then(
                     (res) => {
                         console.log(res)
+                        setLoading(false)
+                        toast.success(res.data.message)
                     }
                 )
                 .catch(
                     (err) => {
                         console.log(err)
+                        setLoading(false)
+                        toast.error("Error while adding student")
                     }
                 )
         } catch (error) {
@@ -64,6 +74,10 @@ export default function AddStudents() {
 
     return (
         <div className='bg-gray-300 px-28 py-8 rounded-xl text-gray-500 text-lg'>
+            <Toaster
+                position="top-center"
+                reverseOrder={true}
+            />
             <span className='my-4 flex flex-col gap-3'>
                 <label htmlFor="url">Upload photo</label>
                 <input type="file" name='url' id='url' accept='image/*' onChange={handleFileChange} className='border w-[400px] border rounded-xl px-2 h-10 bg-white pt-1' />
@@ -105,7 +119,16 @@ export default function AddStudents() {
                 <input type="text" value={student.ctc} onChange={addingStudent} name='ctc' className='border w-[400px] border rounded-xl px-2 h-10' placeholder='' />
 
             </form>
-                <button onClick={postStudent} className='bg-slate-800 h-10 rounded-xl text-xl text-white font-semibold w-[400px] mt-4'>Add student</button>
+            <button onClick={postStudent} className='bg-slate-800 flex justify-center items-center h-10 justify-center items-center rounded-xl text-xl text-white font-semibold w-[400px] mt-4'>
+                {
+                    loading ? <span className=''> <ProgressBar
+                    visible={true}
+                    width="100"
+                    color="green"
+                    ariaLabel="infinity-spin-loading"
+                    /> </span> : 'Add Student'
+                }
+            </button>
 
 
 
