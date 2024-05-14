@@ -105,7 +105,7 @@ export default function AddStudents() {
                 <input type="text" value={student.ctc} onChange={addingStudent} name='ctc' className='border w-[400px] border rounded-xl px-2 h-10' placeholder='' />
 
             </form>
-                <button onClick={postStudent} className='bg-blue-400 h-10 rounded-xl text-xl text-white font-semibold w-[400px] mt-4'>Add student</button>
+                <button onClick={postStudent} className='bg-slate-800 h-10 rounded-xl text-xl text-white font-semibold w-[400px] mt-4'>Add student</button>
 
 
 

@@ -8,11 +8,11 @@ export default function AddAdminPage() {
     <form className='flex bg-gray-200 items-center p-8 rounded-xl flex-col gap-4'>
       <span className='relative w-[400px] flex items-center'>
         <input type="email" required pattern='[^a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
-' placeholder='Admin email' className='border w-[400px] h-[40px] rounded-xl px-4 focus:outline-blue-400'/>
+' placeholder='Admin email' className='border w-[400px] h-[40px] rounded-xl px-4 focus:outline-slate-800'/>
         <EmailIcon className='absolute right-2 text-gray-400' />
       </span>
       <span className='relative w-[400px] flex items-center'>
-        <input type='text' required pattern='[0-9]*' minLength={10} maxLength={10} placeholder='Enter phone number' className='border w-[400px] h-[40px] rounded-xl px-4 focus:outline-blue-400'/>
+        <input type='text' required pattern='[0-9]*' minLength={10} maxLength={10} placeholder='Enter phone number' className='border w-[400px] h-[40px] rounded-xl px-4 focus:outline-slate-800'/>
         <LocalPhoneIcon className='absolute right-2 text-gray-400' />
       </span>
 
@@ -24,7 +24,7 @@ export default function AddAdminPage() {
         </ul>
       </span>
 
-      <button type='submit' className='bg-blue-400 h-10 rounded-xl text-xl text-white font-semibold w-[400px]'>add new admin</button>
+      <button type='submit' className='bg-slate-800 h-10 rounded-xl text-xl text-white font-semibold w-[400px]'>add new admin</button>
     </form>
   )
 }

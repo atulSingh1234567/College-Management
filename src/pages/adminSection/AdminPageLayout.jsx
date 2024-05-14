@@ -9,7 +9,7 @@ export default function AdminPage() {
           {
             feature.map(function(item){
               return <NavLink to={`/admin/${item.toLowerCase().replaceAll(" " , "-")}`} className={({isActive})=>(`${isActive
-                      ? 'font-bold text-blue-600' : 'text-blue-500'} bg-gray-300 px-3 rounded-xl text-2xl w-[100%]`)}>{item}</NavLink>
+                      ? 'font-bold bg-slate-800 text-white' : 'text-slate-800'} bg-gray-300 px-3 py-1 rounded-xl text-2xl w-[100%]`)}>{item}</NavLink>
             })
           }
          </ul>

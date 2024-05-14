@@ -7,7 +7,7 @@ export default function Navbar() {
       <span>
         <img src="https://www.knit.ac.in/images/logo.png" alt="" className='px-4' />
       </span>
-      <span className='flex p-4 bg-blue-500 gap-10'>
+      <span className='flex p-4 bg-slate-800 text-white gap-10'>
         <NavLink className={({isActive})=>(`
             ${isActive? 'text-xl font-bold': 'text-xl'}`)} to=''>Home</NavLink>
         <NavLink className={({isActive})=>(`
