@@ -3,7 +3,7 @@ import React from 'react'
 export default function Card({student}) {
     
   return (
-    <div className='flex flex-col gap-1 w-[250px] border rounded-lg overflow-hidden'>
+    <div className='flex flex-col gap-4 bg-red-400 w-[250px] border rounded-lg overflow-hidden'>
       <span className='h-[140px] overflow-hidden'>
         <img src={student.url} alt="" />
       </span>
