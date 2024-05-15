@@ -14,16 +14,6 @@ export default function Homepage() {
           setStudent(res.data.response)
         }
       )
-      
-      const accessToken = getCookie('accessToken')
-      axios.post('http://localhost:3000/api/v1/get-logged-admin', {accessToken})
-      .then(
-        (res)=>{
-          console.log(res)
-          setMainAdmin(res.data.admin)
-        }
-      )
-
     },[]
   )
 

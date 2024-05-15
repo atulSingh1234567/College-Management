@@ -3,17 +3,24 @@ import { NavLink, Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useAllContexts } from '../../contexts/Contexts';
-
+import axios from 'axios';
 export default function Navbar() {
   const [showBox, setShowBox] = useState(false)
   const [firstLetter , setFirstLetter] = useState("");
-  const { mainAdmin } = useAllContexts()
-  console.log(mainAdmin)
+  const {setMainAdmin,mainAdmin,getCookie} = useAllContexts()
+
   useEffect(
     ()=>{
-      const first = mainAdmin?.data?.email.charAt(0).toUpperCase()
-      setFirstLetter(first)
-    },[mainAdmin]
+      const accessToken = getCookie('accessToken')
+      axios.post('http://localhost:3000/api/v1/get-logged-admin', {accessToken})
+      .then(
+        (res)=>{
+          console.log(res)
+          setMainAdmin(res.data.admin)
+          setFirstLetter(res?.data?.admin?.email?.charAt(0).toUpperCase())
+        }
+      )
+    },[]
   )
   console.log(firstLetter)
   console.log(mainAdmin)

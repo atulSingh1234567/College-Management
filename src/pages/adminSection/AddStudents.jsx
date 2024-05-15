@@ -52,7 +52,12 @@ export default function AddStudents() {
             formData.append('url', studentImg)
             console.log("formdata",formData)
             const accessToken = getCookie('accessToken')
-            axios.post('http://localhost:3000/api/v1/add-student', formData)
+            axios.post('http://localhost:3000/api/v1/add-student', formData, {
+                headers: {
+                  'Authorization': `${accessToken}`,
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
                 .then(
                     (res) => {
                         console.log(res)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import {Toaster,toast} from 'react-hot-toast'
 import {ProgressBar} from 'react-loader-spinner';
@@ -37,7 +37,13 @@ export default function PostJob() {
     formData.append('type', 'description')
     formData.append('description', file)
 
-    axios.post('http://localhost:3000/api/v1/post-job', formData)
+    const accessToken = getCookie('accessToken')
+    axios.post('http://localhost:3000/api/v1/post-job', formData , {
+      headers: {
+        'Authorization': `${accessToken}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    })
       .then(
         (res) => {
           console.log(res)
@@ -54,6 +60,7 @@ export default function PostJob() {
       )
 
   }
+
   return (
     <div className='flex items-center text-gray-500 flex-col gap-2 bg-gray-300 rounded-xl p-4'>
       <Toaster

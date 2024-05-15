@@ -28,7 +28,12 @@ export default function AddAdminPage() {
       setLoading(true)
       const accessToken = getCookie('accessToken');
       console.log(accessToken)
-      axios.post('http://localhost:3000/api/v1/add-admin', {newadmin,accessToken})
+      axios.post('http://localhost:3000/api/v1/add-admin', {newadmin}, {
+        headers : {
+          'Authorization' : `${accessToken}`,
+          'Content-Type' : 'multipart/form-data'
+        }
+      })
       .then(
         (res)=>{
           setLoading(false)
