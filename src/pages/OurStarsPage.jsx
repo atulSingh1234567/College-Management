@@ -8,7 +8,16 @@ export default function OurStarsPage() {
     const {student, setStudent} = useAllContexts()
     const [input , setInput] = useState("")
 
-    
+    useEffect(
+      ()=>{
+        axios.get('http://localhost:3000/api/v1/show-students')
+        .then(
+          (res)=>{
+            setStudent(res.data.response)
+          }
+        )
+      },[]
+    )
     const fetchStudents =  (input)=>{
          axios.get('http://localhost:3000/api/v1/show-students')
          .then(

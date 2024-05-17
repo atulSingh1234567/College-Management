@@ -35,32 +35,40 @@ export default function AdminLogin() {
   }
 
   const sendAdminDetails = async function (e) {
-    try {
-      e.preventDefault()
-      setLoading(true)
-      axios.post('http://localhost:3000/api/v1/admin-login', admin)
-        .then(
-          (response) => {
-            setCookie('accessToken', response.data.accessToken, 7);
-            console.log(response)
-            setMainAdmin(response.data)
-            toast.success(response.data.message)
-            setLoading(false)
-            navigate('/admin/post-a-job')
-          }
-        )
-        .catch(
-          (error) => {
-            console.log(error)
-            setLoading(false)
-            setAnyError(error.response);
-          }
-        )
-    } catch (error) {
-      console.log("error while fetching admin details");
-      setAnyError(error)
+  
+      try {
+        e.preventDefault()
+        setLoading(true)
+        axios.post('http://localhost:3000/api/v1/admin-login', admin)
+          .then(
+            (response) => {
+              setCookie('accessToken', response.data.accessToken, 7);
+              console.log(response)
+              setMainAdmin(response.data)
+              toast.success(response.data.message)
+              setTimeout(
+                ()=>{
+                   location.href = '/'
+                },1000
+              )
+              setLoading(false)
+            }
+          )
+          .catch(
+            (error) => {
+              console.log(error)
+              setLoading(false)
+              toast.error(error.response.data.message)
+              setAnyError(error.response);
+            }
+          )
+      } catch (error) {
+        console.log("error while fetching admin details");
+        setAnyError(error)
+      }
     }
-  }
+    
+  
 
 
   // console.log(admin)
@@ -77,7 +85,7 @@ export default function AdminLogin() {
         <EmailIcon className='absolute right-2 text-gray-400' />
       </span>
       <span className='relative w-[400px] flex items-center'>
-        <input type={`${showPassword ? 'text' : 'password'}`} onChange={adminDetails} name='password' value={admin.password} required pattern='[0-9]*' minLength={10} maxLength={10} placeholder='Your password' className='border w-[400px] h-[40px] rounded-xl px-4 focus:outline-slate-800' />
+        <input type={`${showPassword ? 'text' : 'password'}`} onChange={adminDetails} name='password' value={admin.password} required minLength={10} placeholder='Your password' className='border w-[400px] h-[40px] rounded-xl px-4 focus:outline-slate-800' />
         <span onClick={() => setShowPassword(prev => !prev)} className='absolute right-2 text-gray-400 cursor-pointer'>
           {
             showPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />

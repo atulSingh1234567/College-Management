@@ -11,6 +11,7 @@ import AdminLogin from './pages/adminSection/AdminLogin'
 import AddAdminPage from './pages/adminSection/AddAdminPage'
 import AddStudents from './pages/adminSection/AddStudents'
 import PostJob from './pages/adminSection/PostJob'
+import Settingspage from './pages/Settingspage'
 const router = createBrowserRouter([{
   path: '',
   element: <Layout/>,
@@ -52,6 +53,10 @@ const router = createBrowserRouter([{
           element: <PostJob />
         }
       ]
+    },
+    {
+      path: 'settings/:chosenSettings',
+      element: <Settingspage />
     }
   ]
 }])

@@ -4,11 +4,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useAllContexts } from '../../contexts/Contexts';
 import axios from 'axios';
+import {Toaster , toast} from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 export default function Navbar() {
   const [showBox, setShowBox] = useState(false)
   const [firstLetter , setFirstLetter] = useState("");
-  const {setMainAdmin,mainAdmin,getCookie} = useAllContexts()
-
+  const {setMainAdmin,imgURL , setimgURL,mainAdmin,getCookie,eraseCookie} = useAllContexts()
+  const navigate = useNavigate()
   useEffect(
     ()=>{
       const accessToken = getCookie('accessToken')
@@ -18,15 +20,30 @@ export default function Navbar() {
           console.log(res)
           setMainAdmin(res.data.admin)
           setFirstLetter(res?.data?.admin?.email?.charAt(0).toUpperCase())
+          setimgURL(res.data.admin.imgurl)
+        }
+      )
+      .catch(
+        (err)=>{
+          toast.error('Admin not logged in')
         }
       )
     },[]
   )
   console.log(firstLetter)
   console.log(mainAdmin)
+  
+  const logoutAccount = ()=>{
+       eraseCookie('accessToken')
+       location.href = '/'
+  }
 
   return (
     <header className='flex flex-col justify-between'>
+      <Toaster
+        position="top-center"
+        reverseOrder={true}
+      />
       <span>
         <img src="https://www.knit.ac.in/images/logo.png" alt="" className='px-4' />
       </span>
@@ -51,7 +68,7 @@ export default function Navbar() {
           {
              Object.keys(mainAdmin)?.length>0 ? <span className='w-8 h-8 overflow-hidden bg-white text-black flex justify-center items-center font-bold rounded-full'>{
               
-              mainAdmin?.data?.imgurl?.length>0 ? <img src={mainAdmin?.data?.imgurl} alt="error" /> : firstLetter
+                <img src={imgURL} alt="error" /> 
               
               }</span> 
              : <AccountCircleIcon className='min-w-8 min-h-8'/>
@@ -60,9 +77,9 @@ export default function Navbar() {
           {
             showBox && <span className='absolute text-gray-500 gap-1 z-10 text-lg px-4 py-2 w-56 flex flex-col rounded-xl h-40 bg-white shadow-xl top-10 border right-0'>
               <p className='text-sm mb-2 text-blue-500'>Welcome, {mainAdmin.email}</p>
-              <Link className='border rounded-xl px-3 hover:bg-gray-100'>Change Password</Link>
-              <Link className='border rounded-xl px-3 hover:bg-gray-100'>Change Profile</Link>
-              <Link className='border rounded-xl px-3 hover:bg-gray-100'>Logout</Link>
+              <Link to='/settings/change-password' className='border rounded-xl px-3 hover:bg-gray-100'>Change Password</Link>
+              <Link to='/settings/change-profile' className='border rounded-xl px-3 hover:bg-gray-100'>Change Profile</Link>
+              <div onClick={logoutAccount} className='border rounded-xl px-3 hover:bg-gray-100'>Logout</div>
             </span>
           }
         </span>

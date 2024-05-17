@@ -2,15 +2,19 @@ import React, {useEffect} from "react";
 import Card from "../components/student-card/Card";
 import { useAllContexts } from "../contexts/Contexts";
 import axios from "axios";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import {Link} from 'react-router-dom'
 
 export default function Homepage() {
-  const {student,setStudent,setMainAdmin,getCookie} = useAllContexts()
+  const {student,setStudent} = useAllContexts()
 
   useEffect(
     ()=>{
       axios.get('http://localhost:3000/api/v1/show-students')
       .then(
         (res)=>{
+          const result = res.data.response;
+
           setStudent(res.data.response)
         }
       )
@@ -87,13 +91,14 @@ export default function Homepage() {
         </span>
       </div>
 
-      <div className="px-4 h-[650px] overflow-hidden mt-8">
-        <h1 className="text-2xl font-semibold">Our Gems</h1>
-        <span className="flex flex-wrap gap-2 px-4 mt-4">
+      <div className=" relative h-[600px] border overflow-hidden mt-8">
+        <h1 className="text-2xl px-4 font-semibold">Our Gems</h1>
+        <span className="flex px-8 flex-wrap gap-2 px-4 mt-4">
           {student.map(function (student) {
             return <Card student={student} />;
           })}
         </span>
+        <Link to='/our-stars' className="w-full text-center bg-gray-200 text-black h-10 font-bold pt-2 absolute bottom-0">View more <ArrowForwardIcon/></Link>
       </div>
 
       {/* <div className="px-4">

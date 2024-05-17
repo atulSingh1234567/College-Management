@@ -124,7 +124,7 @@ export default function AddStudents() {
                 <input type="text" value={student.ctc} onChange={addingStudent} name='ctc' className='border w-[400px] border rounded-xl px-2 h-10' placeholder='' />
 
             </form>
-            <button onClick={postStudent} className='bg-slate-800 flex justify-center items-center h-10 justify-center items-center rounded-xl text-xl text-white font-semibold w-[400px] mt-4'>
+            <button onClick={postStudent} className='bg-slate-800 flex h-10 justify-center items-center rounded-xl text-xl text-white font-semibold w-[400px] mt-4'>
                 {
                     loading ? <span className=''> <ProgressBar
                     visible={true}

@@ -4,15 +4,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { toast} from 'react-hot-toast'
 import axios from 'axios';
 import { useAllContexts } from '../../contexts/Contexts';
-import {useNavigate} from 'react-router-dom'
+
 export default function JobCard({descript}) {
-  const navigate = useNavigate()
-     const {getCookie} = useAllContexts()
+  
+     const {getCookie,setJob,job} = useAllContexts()
     const deleteJob = ()=>{
       try {
         
         const accessToken = getCookie('accessToken')
-
         axios.post('http://localhost:3000/api/v1/delete-job' , descript , {
           headers: {
             'Authorization' : `${accessToken}`
@@ -20,8 +19,12 @@ export default function JobCard({descript}) {
         })
         .then(
           (res)=>{
+            const remainedJob = job.filter(function(job,index){
+              return descript != job
+            })
+            console.log(remainedJob)
+            setJob(remainedJob)
             toast.success(res.data.message)
-            location.href = '/jobs'
           }
         )
       } catch (error) {
@@ -30,7 +33,7 @@ export default function JobCard({descript}) {
     }
   return (
     <div className='h-[300px] rounded-xl relative shadow-xl w-[350px] flex gap-1 flex-col p-3 border'>
-      <span onClick={()=>deleteJob(descript._id)} className='absolute cursor-pointer right-4 top-4'><DeleteIcon/></span>
+      <span onClick={()=>deleteJob()} className='absolute cursor-pointer right-4 top-4'><DeleteIcon/></span>
       <h1 className='text-xl text-sky-900 font-semibold'>{descript?.role}</h1>
       <p>{descript?.company}</p>
       <p className='bg-gray-200 px-2'>From <span className='text-blue-500'>{descript?.ctc}</span>  a year</p>

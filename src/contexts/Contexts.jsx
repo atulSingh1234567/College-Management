@@ -6,6 +6,8 @@ export const AllContextsProvider = ({children})=>{
     const [mainAdmin,setMainAdmin] = useState({});
     const [anyError, setAnyError] = useState({})
     const [student , setStudent] = useState([])
+    const [job,setJob] = useState([])
+    const [imgURL , setimgURL] = useState('')
     const getCookie = (name) => {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
@@ -16,8 +18,11 @@ export const AllContextsProvider = ({children})=>{
         }
         return null;
       };
-
-    return <AllContexts.Provider value={{mainAdmin , student, setStudent , setMainAdmin, anyError, setAnyError, getCookie}}>
+    
+      const eraseCookie = (name) => {
+        document.cookie = name + '=; Max-Age=-99999999;';
+      };
+    return <AllContexts.Provider value={{mainAdmin,eraseCookie,job,setJob,imgURL,setimgURL , student, setStudent , setMainAdmin, anyError, setAnyError, getCookie}}>
            {children}
     </AllContexts.Provider>
 }

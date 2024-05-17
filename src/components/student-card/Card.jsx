@@ -7,7 +7,7 @@ export default function Card({student}) {
       <span className='h-full'>
         <img src={student.url} alt="" className='w-full' />
       </span>
-      <span className='flex absolute bottom-0 bg-black opacity-70 w-full flex-col gap-1 text-lg my-2 px-4'>
+      <span className='flex absolute bottom-[-8px] bg-black opacity-70 w-full flex-col gap-1 text-lg my-2 px-4'>
       <p className='text-blue-600 opacity-100 font-semibold'>{student.name}</p>
       <p>{student.course}, {student.batch}</p>
       <p>{student.role},{student.company}</p>
