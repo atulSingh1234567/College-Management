@@ -4,38 +4,71 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useAllContexts } from '../../contexts/Contexts';
 import axios from 'axios';
-import {Toaster , toast} from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast'
 export default function Navbar() {
   const [showBox, setShowBox] = useState(false)
-  const [firstLetter , setFirstLetter] = useState("");
-  const {setMainAdmin,imgURL , setimgURL,mainAdmin,getCookie,eraseCookie} = useAllContexts()
-  const navigate = useNavigate()
+  const [firstLetter, setFirstLetter] = useState("");
+  const { setMainAdmin, imgURL, setimgURL, mainAdmin, getCookie, eraseCookie } = useAllContexts()
+
   useEffect(
-    ()=>{
+    () => {
       const accessToken = getCookie('accessToken')
-      axios.post('http://localhost:3000/api/v1/get-logged-admin', {accessToken})
-      .then(
-        (res)=>{
-          console.log(res)
-          setMainAdmin(res.data.admin)
-          setFirstLetter(res?.data?.admin?.email?.charAt(0).toUpperCase())
-          setimgURL(res.data.admin.imgurl)
-        }
-      )
-      .catch(
-        (err)=>{
-          toast.error('Admin not logged in')
-        }
-      )
-    },[]
+      axios.post('http://localhost:3000/api/v1/get-logged-admin', { accessToken })
+        .then(
+          (res) => {
+            console.log(res)
+            setMainAdmin(res.data.admin)
+            setFirstLetter(res?.data?.admin?.email?.charAt(0).toUpperCase())
+            setimgURL(res.data.admin.imgurl)
+          }
+        )
+        .catch(
+          (err) => {
+            if (err.response || err.response.status === 401) {
+              try {
+                const refreshToken = getCookie('refreshToken');
+                axios.get('http://localhost:3000/api/v1/generate-refresh-token', {
+                  headers: {
+                    'Authorization': `${refreshToken}`
+                  }
+                })
+                  .then(
+                    (res) => {
+                      const accessToken = res.data.accessToken;
+                      axios.post('http://localhost:3000/api/v1/get-logged-admin', { accessToken })
+                        .then(
+                          (res) => {
+                            console.log(res)
+                            setMainAdmin(res.data.admin)
+                            setFirstLetter(res?.data?.admin?.email?.charAt(0).toUpperCase())
+                            setimgURL(res.data.admin.imgurl)
+                          }
+                        )
+                        .catch(
+                          (err)=>{
+                            toast.error(err.data.message)
+                          }
+                        )
+                    }
+                  )
+              } catch (error) {
+                      toast.error(error.data.message)
+              }
+            }
+            else {
+               toast.error(err.data.message)
+            }
+          }
+        )
+    }, []
   )
   console.log(firstLetter)
   console.log(mainAdmin)
-  
-  const logoutAccount = ()=>{
-       eraseCookie('accessToken')
-       location.href = '/'
+
+  const logoutAccount = () => {
+    eraseCookie('accessToken')
+    eraseCookie('refreshToken')
+    location.href = '/'
   }
 
   return (
@@ -66,12 +99,12 @@ export default function Navbar() {
           onClick={() => setShowBox(prev => !prev)}
         >
           {
-             Object.keys(mainAdmin)?.length>0 ? <span className='w-8 h-8 overflow-hidden bg-white text-black flex justify-center items-center font-bold rounded-full'>{
-              
-                <img src={imgURL} alt="error" /> 
-              
-              }</span> 
-             : <AccountCircleIcon className='min-w-8 min-h-8'/>
+            Object.keys(mainAdmin)?.length > 0 ? <span className='w-8 h-8 overflow-hidden bg-white text-black flex justify-center items-center font-bold rounded-full'>{
+
+              <img src={imgURL} alt="error" />
+
+            }</span>
+              : <AccountCircleIcon className='min-w-8 min-h-8' />
           }
           <ArrowDropDownIcon />
           {

@@ -91,7 +91,7 @@ export default function Homepage() {
         </span>
       </div>
 
-      <div className=" relative h-[600px] border overflow-hidden mt-8">
+      <div className=" relative h-[700px] border overflow-hidden mt-8">
         <h1 className="text-2xl px-4 font-semibold">Our Gems</h1>
         <span className="flex px-8 flex-wrap gap-2 px-4 mt-4">
           {student.map(function (student) {

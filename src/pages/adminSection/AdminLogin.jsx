@@ -5,7 +5,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import axios from 'axios'
 import { useAllContexts } from '../../contexts/Contexts';
 import { ProgressBar } from 'react-loader-spinner';
-import { useNavigate } from 'react-router-dom';
 import {Toaster,toast} from 'react-hot-toast'
 
 export default function AdminLogin() {
@@ -14,18 +13,16 @@ export default function AdminLogin() {
   const { setMainAdmin, setAnyError } = useAllContexts();
   const [loading, setLoading] = useState(false)
 
-  const setCookie = (name, value, days) => {
+  const setCookie = (name, value) => {
     let expires = "";
-    if (days) {
-      const date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    // if (days) {
+    //   const date = new Date();
+    //   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    //   expires = "; expires=" + date.toUTCString();
+    // }
+    document.cookie = name + "=" + (value || "")  + "; path=/";
   };
   
-
-  const navigate = useNavigate()
   const adminDetails = (e) => {
     const { name, value } = e.target;
     setAdmin({
@@ -43,6 +40,7 @@ export default function AdminLogin() {
           .then(
             (response) => {
               setCookie('accessToken', response.data.accessToken, 7);
+              setCookie('refreshToken' , response.data.refreshToken)
               console.log(response)
               setMainAdmin(response.data)
               toast.success(response.data.message)
