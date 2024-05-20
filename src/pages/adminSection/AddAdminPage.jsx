@@ -28,10 +28,9 @@ export default function AddAdminPage() {
       setLoading(true)
       const accessToken = getCookie('accessToken');
       console.log(accessToken)
-      axios.post('http://localhost:3000/api/v1/add-admin', {newadmin}, {
+      axios.post('http://localhost:3000/api/v1/add-admin', newadmin, {
         headers : {
-          'Authorization' : `${accessToken}`,
-          'Content-Type' : 'multipart/form-data'
+          'Authorization' : `${accessToken}`
         }
       })
       .then(
@@ -45,6 +44,8 @@ export default function AddAdminPage() {
       toast.error("New admin not added")
     }
   }
+
+  console.log(newadmin)
   return (
     <form onSubmit={addNewAdmins} className='flex bg-gray-200 items-center p-8 rounded-xl flex-col gap-4'>
       <Toaster
